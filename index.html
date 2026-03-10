@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BlackRoad OS — The AI operating system that manages memory and continuity across every AI model. Click to explore." />
+  <title>BlackRoad OS — AI That Never Forgets</title>
+
+  <style>
+    /* ===== BRAND TOKENS ===== */
+    :root {
+      --black:   #000000;
+      --ink:     #0A0A0A;
+      --surface: #111111;
+      --border:  #1A1A1A;
+      --dim:     #444444;
+      --sub:     #888888;
+      --white:   #FFFFFF;
+
+      /* Official BlackRoad colors only */
+      --pink:    #FF1D6C;
+      --amber:   #F5A623;
+      --blue:    #2979FF;
+      --violet:  #9C27B0;
+
+      --gradient: linear-gradient(135deg, #F5A623 0%, #FF1D6C 38.2%, #9C27B0 61.8%, #2979FF 100%);
+
+      /* Golden ratio spacing */
+      --sp-xs: 8px;
+      --sp-sm: 13px;
+      --sp-md: 21px;
+      --sp-lg: 34px;
+      --sp-xl: 55px;
+      --sp-2xl: 89px;
+      --sp-3xl: 144px;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+      background: var(--black);
+      color: var(--white);
+      line-height: 1.618;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--sp-md) var(--sp-xl);
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: var(--sp-lg); align-items: center; }
+    .nav-links a {
+      color: var(--sub);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 20px;
+      background: var(--pink);
+      color: var(--white) !important;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      transition: opacity 0.2s, transform 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.88; transform: translateY(-1px) !important; }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: var(--sp-3xl) var(--sp-xl) var(--sp-2xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated glow orb */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(255,29,108,0.12) 0%, rgba(156,39,176,0.08) 40%, transparent 70%);
+      pointer-events: none;
+      animation: orb 8s ease-in-out infinite;
+    }
+    @keyframes orb {
+      0%,100% { transform: translate(-50%,-50%) scale(1); }
+      50%      { transform: translate(-50%,-50%) scale(1.25); }
+    }
+
+    /* Grid background */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 55px 55px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border: 1px solid rgba(255,29,108,0.4);
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: var(--sp-lg);
+      position: relative;
+      z-index: 1;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--pink);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.3; }
+    }
+
+    .hero-title {
+      font-size: clamp(42px, 8vw, 96px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--sp-lg);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-sub {
+      font-size: clamp(18px, 2.5vw, 24px);
+      color: var(--sub);
+      max-width: 620px;
+      line-height: 1.618;
+      margin-bottom: var(--sp-2xl);
+      position: relative;
+      z-index: 1;
+    }
+    .hero-sub strong { color: var(--white); }
+
+    .hero-actions {
+      display: flex;
+      gap: var(--sp-md);
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 34px;
+      background: var(--pink);
+      color: var(--white);
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 0 0 rgba(255,29,108,0.4);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(255,29,108,0.4);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 15px 34px;
+      background: transparent;
+      color: var(--white);
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--pink);
+      background: rgba(255,29,108,0.06);
+    }
+
+    /* ===== SECTION WRAPPER ===== */
+    section {
+      padding: var(--sp-3xl) var(--sp-xl);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: var(--sp-md);
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--white);
+      margin-bottom: var(--sp-md);
+    }
+
+    .section-desc {
+      font-size: 18px;
+      color: var(--sub);
+      max-width: 560px;
+      line-height: 1.618;
+      margin-bottom: var(--sp-2xl);
+    }
+
+    /* ===== PORTAL CARDS ===== */
+    .portals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--sp-lg);
+    }
+
+    .portal-card {
+      position: relative;
+      background: var(--ink);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: var(--sp-xl);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-md);
+      overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+    }
+    .portal-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gradient);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .portal-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,29,108,0.35);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+    .portal-card:hover::before { opacity: 1; }
+
+    .portal-icon {
+      font-size: 36px;
+      line-height: 1;
+    }
+
+    .portal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+
+    .portal-desc {
+      font-size: 14px;
+      color: var(--sub);
+      line-height: 1.618;
+      flex: 1;
+    }
+
+    .portal-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--pink);
+      margin-top: auto;
+    }
+    .portal-arrow svg { transition: transform 0.2s; }
+    .portal-card:hover .portal-arrow svg { transform: translateX(4px); }
+
+    .portal-card.featured {
+      background: linear-gradient(135deg, rgba(255,29,108,0.08) 0%, rgba(156,39,176,0.05) 100%);
+      border-color: rgba(255,29,108,0.25);
+    }
+
+    /* ===== FEATURE STRIP ===== */
+    .features-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--sp-md);
+      margin-top: var(--sp-2xl);
+    }
+
+    .feature-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: var(--sp-lg) var(--sp-md);
+      text-align: center;
+    }
+
+    .feature-icon { font-size: 28px; margin-bottom: var(--sp-sm); }
+    .feature-name { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .feature-note { font-size: 12px; color: var(--sub); }
+
+    /* ===== STATS BAR ===== */
+    .stats-bar {
+      background: var(--ink);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: var(--sp-2xl) var(--sp-xl);
+    }
+    .stats-bar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: var(--sp-xl);
+    }
+    .stat { text-align: center; }
+    .stat-number {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+    }
+    .stat-label { font-size: 14px; color: var(--sub); margin-top: 4px; }
+
+    /* ===== HOW IT WORKS ===== */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--sp-lg);
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      padding: var(--sp-lg);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      counter-increment: step;
+    }
+    .step::before {
+      content: counter(step, decimal-leading-zero);
+      position: absolute;
+      top: var(--sp-lg);
+      right: var(--sp-lg);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--dim);
+    }
+    .step-icon { font-size: 28px; margin-bottom: var(--sp-md); }
+    .step-title { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: var(--sp-sm); }
+    .step-desc { font-size: 14px; color: var(--sub); line-height: 1.618; }
+
+    /* ===== CTA BANNER ===== */
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(255,29,108,0.1) 0%, rgba(41,121,255,0.08) 100%);
+      border: 1px solid rgba(255,29,108,0.2);
+      border-radius: 20px;
+      padding: var(--sp-3xl) var(--sp-2xl);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin: var(--sp-3xl) var(--sp-xl);
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 500px; height: 300px;
+      background: radial-gradient(ellipse, rgba(255,29,108,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-banner h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      margin-bottom: var(--sp-md);
+      position: relative;
+      z-index: 1;
+    }
+    .cta-banner p {
+      font-size: 18px;
+      color: var(--sub);
+      margin-bottom: var(--sp-2xl);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-actions {
+      display: flex;
+      gap: var(--sp-md);
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: var(--sp-2xl) var(--sp-xl);
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: var(--sp-2xl);
+    }
+
+    .footer-brand .logo-text {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      margin-bottom: var(--sp-sm);
+    }
+    .footer-brand p {
+      font-size: 13px;
+      color: var(--sub);
+      max-width: 260px;
+      line-height: 1.618;
+    }
+
+    .footer-col h4 {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: var(--sp-md);
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: var(--sp-sm); }
+    .footer-col a {
+      font-size: 14px;
+      color: var(--sub);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--pink); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: var(--sp-lg) var(--sp-xl);
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--sp-md);
+    }
+    .footer-bottom p { font-size: 12px; color: var(--dim); }
+    .footer-bottom a { color: var(--sub); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--pink); }
+
+    /* ===== SEPARATOR ===== */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      nav { padding: var(--sp-md); }
+      .nav-links { display: none; }
+      .hero { padding: var(--sp-3xl) var(--sp-md) var(--sp-2xl); }
+      section { padding: var(--sp-2xl) var(--sp-md); }
+      .stats-bar { padding: var(--sp-xl) var(--sp-md); }
+      .cta-banner { margin: var(--sp-2xl) var(--sp-md); padding: var(--sp-2xl) var(--sp-md); }
+      footer { padding: var(--sp-2xl) var(--sp-md); }
+      .footer-bottom { padding: var(--sp-lg) var(--sp-md); flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+  <a href="#" class="nav-logo">BlackRoad OS</a>
+  <div class="nav-links">
+    <a href="#portals">Explore</a>
+    <a href="#how">How It Works</a>
+    <a href="https://github.com/BlackRoad-OS" target="_blank" rel="noopener">GitHub</a>
+    <a href="mailto:blackroad.systems@gmail.com" class="nav-cta">
+      Get Access
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <div class="hero-badge">
+    <span>Live — AI That Never Forgets</span>
+  </div>
+
+  <h1 class="hero-title">Your AI.<br>Supercharged.</h1>
+
+  <p class="hero-sub">
+    BlackRoad OS gives ChatGPT, Claude, and Gemini a <strong>persistent memory</strong>
+    and a single brain — so your AI team works as one, across every conversation.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#portals" class="btn-primary">
+      ✨ Explore the Portal
+    </a>
+    <a href="https://github.com/BlackRoad-OS" target="_blank" rel="noopener" class="btn-ghost">
+      View on GitHub
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- ===== STATS ===== -->
+<div class="stats-bar">
+  <div class="stats-bar-inner">
+    <div class="stat">
+      <span class="stat-number">578</span>
+      <div class="stat-label">Repositories</div>
+    </div>
+    <div class="stat">
+      <span class="stat-number">15</span>
+      <div class="stat-label">Organizations</div>
+    </div>
+    <div class="stat">
+      <span class="stat-number">30k</span>
+      <div class="stat-label">AI Agents</div>
+    </div>
+    <div class="stat">
+      <span class="stat-number">1</span>
+      <div class="stat-label">Operator</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PORTALS ===== -->
+<section id="portals">
+  <div class="section-label">Portals — click to explore</div>
+  <h2 class="section-title">Everything, right here.</h2>
+  <p class="section-desc">No setup. No code. Just click a card and see it work.</p>
+
+  <div class="portals-grid">
+
+    <a href="https://github.com/BlackRoad-OS" target="_blank" rel="noopener" class="portal-card featured">
+      <div class="portal-icon">🌌</div>
+      <div class="portal-title">BlackRoad OS Hub</div>
+      <div class="portal-desc">Browse all 578 repositories across 15 organizations. The complete BlackRoad OS ecosystem — infrastructure, AI agents, and more.</div>
+      <div class="portal-arrow">
+        Open GitHub Hub
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </a>
+
+    <a href="https://github.com/BlackRoad-OS/blackroad-os-infra" target="_blank" rel="noopener" class="portal-card">
+      <div class="portal-icon">🧬</div>
+      <div class="portal-title">Core Infrastructure</div>
+      <div class="portal-desc">The foundation of BlackRoad OS — templates, deployment scripts, and the Light Trinity system that powers everything.</div>
+      <div class="portal-arrow">
+        Open Infrastructure
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </a>
+
+    <a href="mailto:blackroad.systems@gmail.com?subject=BlackRoad OS Access Request" class="portal-card">
+      <div class="portal-icon">🔑</div>
+      <div class="portal-title">Get API Access</div>
+      <div class="portal-desc">Request access to the BlackRoad OS API — the layer that sits above Google, OpenAI, and Anthropic to manage your AI's memory.</div>
+      <div class="portal-arrow">
+        Request Access
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </a>
+
+    <a href="https://github.com/BlackRoad-OS/app-blackroad-io/blob/main/README.md" target="_blank" rel="noopener" class="portal-card">
+      <div class="portal-icon">📚</div>
+      <div class="portal-title">Documentation</div>
+      <div class="portal-desc">Learn how BlackRoad OS works — from the Light Trinity system to deploying AI agents at scale. Plain English, no jargon.</div>
+      <div class="portal-arrow">
+        Read the Docs
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </a>
+
+    <a href="https://github.com/BlackRoad-OS/app-blackroad-io/issues/new" target="_blank" rel="noopener" class="portal-card">
+      <div class="portal-icon">💬</div>
+      <div class="portal-title">Talk to the Team</div>
+      <div class="portal-desc">Have an idea, question, or dream you want to build? Open a conversation and Alexa's team will respond. We love hearing from dreamers.</div>
+      <div class="portal-arrow">
+        Start a Conversation
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </a>
+
+    <a href="https://github.com/BlackRoad-OS/app-blackroad-io/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener" class="portal-card">
+      <div class="portal-icon">🚀</div>
+      <div class="portal-title">Join the Mission</div>
+      <div class="portal-desc">BlackRoad OS is building the AI infrastructure for 30,000 agents and 30,000 humans. Learn how you can be part of it.</div>
+      <div class="portal-arrow">
+        How to Contribute
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== FEATURES ===== -->
+<section>
+  <div class="section-label">What makes it different</div>
+  <h2 class="section-title">AI that works as a team.</h2>
+  <p class="section-desc">Most AI tools forget you the moment you close the window. BlackRoad OS remembers everything — forever.</p>
+
+  <div class="features-strip">
+    <div class="feature-item">
+      <div class="feature-icon">🧠</div>
+      <div class="feature-name">Persistent Memory</div>
+      <div class="feature-note">AI that remembers context across every session</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🤖</div>
+      <div class="feature-name">30k AI Agents</div>
+      <div class="feature-note">Entire companies run on AI, coordinated by one OS</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-name">Any AI Model</div>
+      <div class="feature-note">Works with ChatGPT, Claude, Gemini, and more</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-name">Private & Secure</div>
+      <div class="feature-note">Your data, your control — proprietary infrastructure</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🌐</div>
+      <div class="feature-name">578 Repos</div>
+      <div class="feature-note">Massive, battle-tested ecosystem already built</div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🎯</div>
+      <div class="feature-name">One Operator</div>
+      <div class="feature-note">Designed for a single visionary to run an empire</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section id="how">
+  <div class="section-label">How It Works</div>
+  <h2 class="section-title">Three clicks to launch.</h2>
+  <p class="section-desc">No terminal. No jargon. No nightmares. Just results.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-icon">✉️</div>
+      <div class="step-title">Request Access</div>
+      <div class="step-desc">Email us or open a GitHub issue. Tell us what you want to build — no tech background needed.</div>
+    </div>
+    <div class="step">
+      <div class="step-icon">🎁</div>
+      <div class="step-title">Get Your Portal</div>
+      <div class="step-desc">We set up a custom BlackRoad OS portal for you — pre-built, branded, and ready to use immediately.</div>
+    </div>
+    <div class="step">
+      <div class="step-icon">🌌</div>
+      <div class="step-title">Dream & Deploy</div>
+      <div class="step-desc">Your AI team is live. Every agent remembers everything. Your entire company can now run on AI.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA BANNER ===== -->
+<div class="cta-banner">
+  <h2>Ready to dream bigger?</h2>
+  <p>Join the companies building their future on BlackRoad OS. The AI operating system that never forgets.</p>
+  <div class="cta-actions">
+    <a href="mailto:blackroad.systems@gmail.com?subject=BlackRoad OS — Let's Build Together" class="btn-primary">
+      ✉️ Email Alexa Directly
+    </a>
+    <a href="https://github.com/BlackRoad-OS" target="_blank" rel="noopener" class="btn-ghost">
+      Explore on GitHub
+    </a>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-brand">
+    <span class="logo-text">BlackRoad OS</span>
+    <p>The AI operating system. Persistent memory and continuity across every AI model, at scale.</p>
+  </div>
+
+  <div class="footer-col">
+    <h4>Explore</h4>
+    <ul>
+      <li><a href="https://github.com/BlackRoad-OS" target="_blank" rel="noopener">GitHub Organization</a></li>
+      <li><a href="https://github.com/BlackRoad-OS/blackroad-os-infra" target="_blank" rel="noopener">Infrastructure</a></li>
+      <li><a href="https://github.com/BlackRoad-OS/app-blackroad-io/blob/main/README.md" target="_blank" rel="noopener">Documentation</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-col">
+    <h4>Company</h4>
+    <ul>
+      <li><a href="https://github.com/BlackRoad-OS/app-blackroad-io/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contribute</a></li>
+      <li><a href="https://github.com/BlackRoad-OS/app-blackroad-io/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+      <li><a href="mailto:blackroad.systems@gmail.com">Contact</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-col">
+    <h4>Legal</h4>
+    <ul>
+      <li><a href="https://github.com/BlackRoad-OS/app-blackroad-io/blob/main/.github/SECURITY.md" target="_blank" rel="noopener">Security</a></li>
+      <li><a href="https://github.com/BlackRoad-OS/app-blackroad-io/blob/main/LICENSE" target="_blank" rel="noopener">Privacy</a></li>
+    </ul>
+  </div>
+</footer>
+
+<div class="footer-bottom">
+  <p>© 2026 BlackRoad OS, Inc. All Rights Reserved. CEO: Alexa Amundson.</p>
+  <p><a href="mailto:blackroad.systems@gmail.com">blackroad.systems@gmail.com</a></p>
+</div>
+
+</body>
+</html>
